@@ -12,10 +12,10 @@ invoices_bp = Blueprint('invoices', __name__, url_prefix='/invoices')
 
 # Προβολή όλων των τιμολογίων
 @invoices_bp.route('/')
-def index():
+def invoice_list():
     invoices = Invoice.query.order_by(Invoice.date.desc()).all()
     return render_template('invoices/index.html', invoices=invoices)
-
+    
 # Δημιουργία νέου τιμολογίου με αυτόματη αρίθμηση
 @invoices_bp.route('/add', methods=['GET', 'POST'])
 def add_invoice():
