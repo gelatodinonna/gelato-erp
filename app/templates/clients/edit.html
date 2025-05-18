@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Επεξεργασία Πελάτη | Gelato ERP{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">✏️ Επεξεργασία Πελάτη</h2>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.vat.label(class="form-label") }}
+        {{ form.vat(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.phone.label(class="form-label") }}
+        {{ form.phone(class="form-control") }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Αποθήκευση</button>
+    <a href="{{ url_for('clients.index') }}" class="btn btn-secondary">Ακύρωση</a>
+</form>
+
+{% endblock %}

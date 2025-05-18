@@ -32,3 +32,16 @@ def new_client():
 def view_client(client_id):
     client = Client.query.get_or_404(client_id)
     return render_template('clients/view.html', client=client)
+
+@clients_bp.route('/<int:client_id>/edit', methods=['GET', 'POST'])
+def edit_client(client_id):
+    client = Client.query.get_or_404(client_id)
+    form = ClientForm(obj=client)
+
+    if form.validate_on_submit():
+        form.populate_obj(client)
+        db.session.commit()
+        flash("Ο πελάτης ενημερώθηκε.", "success")
+        return redirect(url_for('clients.index'))
+
+    return render_template('clients/edit.html', form=form)    
