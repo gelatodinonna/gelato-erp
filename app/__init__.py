@@ -1,10 +1,8 @@
 import os
 from flask import Flask
 from flask_migrate import Migrate
-from .extensions import db,migrate, csrf
+from .extensions import db, migrate, csrf
 from .config import Config
-
-migrate = Migrate()
 
 def create_app():
     app = Flask(__name__)
@@ -13,8 +11,9 @@ def create_app():
     # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
+    csrf.init_app(app)
 
-    # Register blueprints here (we'll add them gradually)
+    # Register blueprints
     from app.main.routes import main_bp
     from app.payroll.routes import payroll_bp
     from app.hr.routes import hr_bp
@@ -27,7 +26,7 @@ def create_app():
     from app.api.routes import api_bp
     from app.costing.routes import costing_bp
     from app.invoices.routes import invoices_bp
-    
+
     app.register_blueprint(main_bp)
     app.register_blueprint(payroll_bp)
     app.register_blueprint(hr_bp)
@@ -40,7 +39,5 @@ def create_app():
     app.register_blueprint(api_bp)
     app.register_blueprint(costing_bp)
     app.register_blueprint(invoices_bp)
-
-
 
     return app

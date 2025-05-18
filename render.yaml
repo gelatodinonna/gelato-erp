@@ -3,8 +3,8 @@ services:
     name: gelato-erp
     env: python
     plan: free
-    buildCommand: ""
-    startCommand: gunicorn 'app:create_app()'
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn 'run:create_app()'"
     envVars:
       - key: FLASK_ENV
         value: production
