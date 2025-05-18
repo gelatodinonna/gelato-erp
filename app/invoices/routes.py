@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request,
 from app.extensions import db
 from app.models import Invoice, InvoiceLine, Client, Store
 from app.invoices.forms import InvoiceForm
+from sqlalchemy.orm import joinedload
 
 from weasyprint import HTML
 import qrcode
@@ -13,9 +14,15 @@ invoices_bp = Blueprint('invoices', __name__, url_prefix='/invoices')
 # Προβολή όλων των τιμολογίων
 @invoices_bp.route('/')
 def invoice_list():
-    invoices = Invoice.query.order_by(Invoice.date.desc()).all()
+    invoices = Invoice.query.options(
+        joinedload(Invoice.client),
+        joinedload(Invoice.store),
+        joinedload(Invoice.lines)
+    ).order_by(Invoice.date.desc()).all()
+
     for invoice in invoices:
         invoice.total_amount = sum(line.quantity * line.unit_price for line in invoice.lines)
+
     return render_template('invoices/index.html', invoices=invoices)
     
 # Δημιουργία νέου τιμολογίου με αυτόματη αρίθμηση

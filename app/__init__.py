@@ -26,6 +26,7 @@ def create_app():
     from app.api.routes import api_bp
     from app.costing.routes import costing_bp
     from app.invoices.routes import invoices_bp
+    from app.clients.routes import clients_bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(payroll_bp)
@@ -39,5 +40,6 @@ def create_app():
     app.register_blueprint(api_bp)
     app.register_blueprint(costing_bp)
     app.register_blueprint(invoices_bp)
+    app.register_blueprint(clients_bp)
 
     return app

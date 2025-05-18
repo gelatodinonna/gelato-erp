@@ -121,7 +121,11 @@ class Invoice(db.Model):
 
     client = db.relationship('Client', backref='invoices')
     store = db.relationship('Store', back_populates='invoices')
-    lines = db.relationship('InvoiceLine', backref='invoice', cascade='all, delete-orphan')
+    lines = db.relationship("InvoiceLine", backref="invoice", lazy=True)
+
+    @property
+    def total_amount(self):
+        return sum(line.quantity * line.unit_price for line in self.lines)
 
 class InvoiceLine(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -136,6 +140,8 @@ class InvoiceLine(db.Model):
 
 class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    afm = db.Column(db.String(20), nullable=True)
-    address = db.Column(db.String(200), nullable=True)
+    name = db.Column(db.String(128), nullable=False)
+    address = db.Column(db.String(256))
+    phone = db.Column(db.String(20))
+    vat_number = db.Column(db.String(20))
+    email = db.Column(db.String(120))

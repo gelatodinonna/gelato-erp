@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Προσθήκη Πελάτη | Gelato ERP{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">➕ Νέος Πελάτης</h2>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.address.label(class="form-label") }}
+        {{ form.address(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.phone.label(class="form-label") }}
+        {{ form.phone(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.vat_number.label(class="form-label") }}
+        {{ form.vat_number(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control") }}
+    </div>
+
+    <button type="submit" class="btn btn-success">Αποθήκευση</button>
+    <a href="{{ url_for('clients.index') }}" class="btn btn-secondary">Ακύρωση</a>
+</form>
+
+{% endblock %}

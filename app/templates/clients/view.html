@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Προβολή Πελάτη | Gelato ERP{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">🧾 Στοιχεία Πελάτη</h2>
+
+<ul class="list-group mb-3">
+    <li class="list-group-item"><strong>Όνομα:</strong> {{ client.name }}</li>
+    <li class="list-group-item"><strong>Διεύθυνση:</strong> {{ client.address }}</li>
+    <li class="list-group-item"><strong>Τηλέφωνο:</strong> {{ client.phone }}</li>
+    <li class="list-group-item"><strong>ΑΦΜ:</strong> {{ client.vat_number }}</li>
+    <li class="list-group-item"><strong>Email:</strong> {{ client.email }}</li>
+</ul>
+
+<a href="{{ url_for('clients.index') }}" class="btn btn-secondary">🔙 Πίσω</a>
+
+{% endblock %}
