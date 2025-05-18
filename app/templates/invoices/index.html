@@ -23,12 +23,12 @@
             <tr>
                 <td>{{ invoice.date.strftime('%d/%m/%Y') }}</td>
                 <td>{{ invoice.number }}</td>
-                <td>{{ invoice.client.name }}</td>
-                <td>{{ invoice.store.name }}</td>
+                <td>{{ invoice.client.name if invoice.client else '—' }}</td>
+                <td>{{ invoice.store.name if invoice.store else '—' }}</td>
                 <td>
                     {{
                         "{:,.2f}".format(
-                            sum(line.quantity * line.unit_price for line in invoice.lines)
+                            sum([line.quantity * line.unit_price for line in invoice.lines])
                         )
                     }}
                 </td>
