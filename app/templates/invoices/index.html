@@ -26,11 +26,11 @@
                 <td>{{ invoice.client.name if invoice.client else '—' }}</td>
                 <td>{{ invoice.store.name if invoice.store else '—' }}</td>
                 <td>
-                    {{
-                        "{:,.2f}".format(
-                            sum([line.quantity * line.unit_price for line in invoice.lines])
-                        )
-                    }}
+                    {% set total = 0 %}
+                    {% for line in invoice.lines %}
+                        {% set total = total + (line.quantity * line.unit_price) %}
+                    {% endfor %}
+                    {{ "{:,.2f}".format(total) }}
                 </td>
                 <td>
                     <a href="{{ url_for('invoices.view_invoice', invoice_id=invoice.id) }}"
