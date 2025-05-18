@@ -69,10 +69,10 @@ def edit_personnel(id):
 
 
 # Διαγραφή εργαζομένου
-@hr_bp.route('/delete/<int:id>', methods=['POST'])
-def delete_personnel(id):
-    employee = Employee.query.get_or_404(id)
+@hr_bp.route('/delete/<int:employee_id>', methods=['POST'])
+def delete_personnel(employee_id):
+    employee = Employee.query.get_or_404(employee_id)
     db.session.delete(employee)
     db.session.commit()
-    flash('Ο εργαζόμενος διαγράφηκε.', 'warning')
+    flash('Ο υπάλληλος διαγράφηκε με επιτυχία.', 'success')
     return redirect(url_for('hr.list_personnel'))

@@ -82,7 +82,7 @@ class Employee(db.Model):
     store_id = db.Column(db.Integer, db.ForeignKey('store.id'), nullable=False)
 
     store = db.relationship('Store', back_populates='employees')
-    payrolls = db.relationship('Payroll', back_populates='employee')
+    payrolls = db.relationship('Payroll', back_populates='employee', cascade='all, delete-orphan')
 
 class Material(db.Model):
     __tablename__ = 'material'
