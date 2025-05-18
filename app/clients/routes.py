@@ -28,6 +28,23 @@ def new_client():
         return redirect(url_for('clients.index'))
     return render_template('clients/add.html', form=form)
 
+@clients_bp.route('/add', methods=['GET', 'POST'])
+def add_client():
+    form = ClientForm()
+    if form.validate_on_submit():
+        new_client = Client(
+            name=form.name.data,
+            vat_number=form.vat_number.data,
+            address=form.address.data,
+            phone=form.phone.data,
+            email=form.email.data
+        )
+        db.session.add(new_client)
+        db.session.commit()
+        flash("Ο πελάτης προστέθηκε επιτυχώς!", "success")
+        return redirect(url_for('clients.index'))
+    return render_template('clients/add.html', form=form)    
+
 @clients_bp.route('/<int:client_id>')
 def view_client(client_id):
     client = Client.query.get_or_404(client_id)
