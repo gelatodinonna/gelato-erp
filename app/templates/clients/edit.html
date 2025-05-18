@@ -13,13 +13,13 @@
     </div>
 
     <div class="mb-3">
-        {{ form.vat.label(class="form-label") }}
-        {{ form.vat(class="form-control") }}
+        {{ form.vat_number.label(class="form-label") }}
+        {{ form.vat_number(class="form-control") }}
     </div>
 
     <div class="mb-3">
-        {{ form.email.label(class="form-label") }}
-        {{ form.email(class="form-control") }}
+        {{ form.address.label(class="form-label") }}
+        {{ form.address(class="form-control") }}
     </div>
 
     <div class="mb-3">
@@ -27,7 +27,12 @@
         {{ form.phone(class="form-control") }}
     </div>
 
-    <button type="submit" class="btn btn-primary">Αποθήκευση</button>
+    <div class="mb-3">
+        {{ form.email.label(class="form-label") }}
+        {{ form.email(class="form-control") }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">💾 Αποθήκευση</button>
     <a href="{{ url_for('clients.index') }}" class="btn btn-secondary">Ακύρωση</a>
 </form>
 
