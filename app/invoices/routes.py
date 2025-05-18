@@ -14,6 +14,8 @@ invoices_bp = Blueprint('invoices', __name__, url_prefix='/invoices')
 @invoices_bp.route('/')
 def invoice_list():
     invoices = Invoice.query.order_by(Invoice.date.desc()).all()
+    for invoice in invoices:
+        invoice.total_amount = sum(line.quantity * line.unit_price for line in invoice.lines)
     return render_template('invoices/index.html', invoices=invoices)
     
 # Δημιουργία νέου τιμολογίου με αυτόματη αρίθμηση
