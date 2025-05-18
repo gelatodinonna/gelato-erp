@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Νέα Καταχώριση Μισθοδοσίας</h2>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">{{ form.personnel_id.label }} {{ form.personnel_id(class="form-control") }}</div>
+    <div class="form-group">{{ form.store_id.label }} {{ form.store_id(class="form-control") }}</div>
+    <div class="form-group">{{ form.date.label }} {{ form.date(class="form-control") }}</div>
+    <div class="form-group">{{ form.gross_amount.label }} {{ form.gross_amount(class="form-control") }}</div>
+    <div class="form-group">{{ form.net_amount.label }} {{ form.net_amount(class="form-control") }}</div>
+    <div class="form-group">{{ form.bonus.label }} {{ form.bonus(class="form-control") }}</div>
+    <div class="form-group">{{ form.payment_method.label }} {{ form.payment_method(class="form-control") }}</div>
+    <button type="submit" class="btn btn-success mt-2">Αποθήκευση</button>
+  </form>
+</div>
+{% endblock %}

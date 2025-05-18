@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Αναφορές | Gelato ERP{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">📊 Συγκεντρωτικές Αναφορές</h2>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover bg-white shadow-sm">
+        <thead class="table-light">
+            <tr>
+                <th>Έτος</th>
+                <th>Μήνας</th>
+                <th>Κατάστημα</th>
+                <th>Έσοδα (€)</th>
+                <th>Έξοδα (€)</th>
+                <th>Καθαρό Κέρδος (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in report_data %}
+            <tr>
+                <td>{{ row.year|int }}</td>
+                <td>{{ row.month|int }}</td>
+                <td>{{ row.store_name }}</td>
+                <td class="text-success fw-bold">{{ "{:,.2f}".format(row.total_revenue) }}</td>
+                <td class="text-danger fw-bold">{{ "{:,.2f}".format(row.total_expense) }}</td>
+                <td class="fw-bold">
+                    {% set net = row.total_revenue - row.total_expense %}
+                    {% if net >= 0 %}
+                        <span class="text-success">+{{ "{:,.2f}".format(net) }}</span>
+                    {% else %}
+                        <span class="text-danger">{{ "{:,.2f}".format(net) }}</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center text-muted">Δεν υπάρχουν δεδομένα για εμφάνιση.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

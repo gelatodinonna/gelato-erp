@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Επεξεργασία Μισθοδοσίας | Gelato ERP{% endblock %}
+{% block content %}
+<h2 class="mb-4">✏️ Επεξεργασία Μισθοδοσίας</h2>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+        {{ form.date.label(class="form-label") }}
+        {{ form.date(class="form-control") }}
+        {% for error in form.date.errors %}
+            <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            {{ form.gross_amount.label(class="form-label") }}
+            {{ form.gross_amount(class="form-control", step="0.01") }}
+            {% for error in form.gross_amount.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="col-md-4 mb-3">
+            {{ form.net_amount.label(class="form-label") }}
+            {{ form.net_amount(class="form-control", step="0.01") }}
+            {% for error in form.net_amount.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="col-md-4 mb-3">
+            {{ form.bonus.label(class="form-label") }}
+            {{ form.bonus(class="form-control", step="0.01") }}
+            {% for error in form.bonus.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            {{ form.payment_method.label(class="form-label") }}
+            {{ form.payment_method(class="form-select") }}
+            {% for error in form.payment_method.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="col-md-4 mb-3">
+            {{ form.store_id.label(class="form-label") }}
+            {{ form.store_id(class="form-select", id="store_id") }}
+            {% for error in form.store_id.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="col-md-4 mb-3">
+            {{ form.employee_id.label(class="form-label") }}
+            {{ form.employee_id(class="form-select", id="employee_id") }}
+            {% for error in form.employee_id.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Αποθήκευση</button>
+    <a href="{{ url_for('payroll.index') }}" class="btn btn-secondary">Ακύρωση</a>
+</form>
+
+<!-- 🔄 AJAX για δυναμική αλλαγή εργαζομένων -->
+<script>
+document.getElementById('store_id').addEventListener('change', function() {
+    const storeId = this.value;
+    const employeeSelect = document.getElementById('employee_id');
+    employeeSelect.innerHTML = '<option selected>Φόρτωση...</option>';
+
+    fetch(`/api/employees/${storeId}`)
+        .then(response => response.json())
+        .then(data => {
+            employeeSelect.innerHTML = '';
+            if (data.length === 0) {
+                employeeSelect.innerHTML = '<option disabled selected>Κανένας διαθέσιμος</option>';
+            } else {
+                data.forEach(emp => {
+                    const option = document.createElement('option');
+                    option.value = emp.id;
+                    option.textContent = emp.name;
+
+                    // ✅ αν είναι ο ήδη επιλεγμένος εργαζόμενος
+                    if (emp.id == {{ form.employee_id.data or 0 }}) {
+                        option.selected = true;
+                    }
+
+                    employeeSelect.appendChild(option);
+                });
+            }
+        });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Gelato ERP - Dashboard</title>
+</head>
+<body>
+    <h1>Πίνακας Ελέγχου</h1>
+
+    <h2>Συνολικά Έσοδα: €{{ total_revenue }}</h2>
+    <h2>Συνολικά Έξοδα: €{{ total_expense }}</h2>
+
+    <h3>Καταστήματα:</h3>
+    <ul>
+        {% for store in stores %}
+        <li>{{ store.name }} - {{ store.location }}</li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{{ url_for('main.new_revenue') }}">Καταχώρηση Εσόδου</a></p>
+    <p><a href="{{ url_for('main.new_expense') }}">Καταχώρηση Εξόδου</a></p>
+    <p><a href="{{ url_for('main.new_store') }}">Προσθήκη Καταστήματος</a></p>
+</body>
+</html>

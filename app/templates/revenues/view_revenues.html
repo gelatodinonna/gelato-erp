@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Έσοδα</title>
+</head>
+<body>
+    <h1>Καταχωρημένα Έσοδα</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Ημερομηνία</th>
+                <th>Κατάστημα</th>
+                <th>Ποσό</th>
+                <th>Περιγραφή</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rev in revenues %}
+            <tr>
+                <td>{{ rev.date.strftime('%d/%m/%Y') }}</td>
+                <td>{{ rev.store.name }}</td>
+                <td>{{ rev.amount }} €</td>
+                <td>{{ rev.description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><a href="{{ url_for('main.dashboard') }}">Πίσω στον πίνακα ελέγχου</a></p>
+</body>
+</html>

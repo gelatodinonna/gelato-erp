@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Τιμολόγια | Gelato ERP{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">📄 Τιμολόγια</h2>
+
+<a href="{{ url_for('invoices.add_invoice') }}" class="btn btn-success mb-4">➕ Νέο Τιμολόγιο</a>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover bg-white shadow-sm">
+        <thead class="table-light">
+            <tr>
+                <th>Ημερομηνία</th>
+                <th>Αρ. Τιμολογίου</th>
+                <th>Πελάτης</th>
+                <th>Κατάστημα</th>
+                <th>Σύνολο (€)</th>
+                <th style="width: 120px;">Ενέργειες</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for invoice in invoices %}
+            <tr>
+                <td>{{ invoice.date.strftime('%d/%m/%Y') }}</td>
+                <td>{{ invoice.number }}</td>
+                <td>{{ invoice.client.name }}</td>
+                <td>{{ invoice.store.name }}</td>
+                <td>
+                    {{
+                        "{:,.2f}".format(
+                            sum(line.quantity * line.unit_price for line in invoice.lines)
+                        )
+                    }}
+                </td>
+                <td>
+                    <a href="{{ url_for('invoices.view_invoice', invoice_id=invoice.id) }}"
+                       class="btn btn-sm btn-primary">Προβολή</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-center text-muted">Δεν υπάρχουν τιμολόγια.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

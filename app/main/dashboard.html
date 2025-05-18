@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Gelato ERP{% endblock %}
+
+{% block content %}
+<div class="py-4">
+    <h2 class="mb-4"><span style="font-size:2.2rem;">👋</span> Καλώς ήρθες στο Gelato ERP!</h2>
+    <div class="row g-4">
+        <!-- Πίνακας στατιστικών -->
+        <div class="col-md-4">
+            <div class="card text-bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Καταστήματα</h5>
+                    <p class="card-text" style="font-size: 2rem;">{{ stores_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Προσωπικό</h5>
+                    <p class="card-text" style="font-size: 2rem;">{{ personnel_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-bg-warning mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Συνολικές Πωλήσεις</h5>
+                    <p class="card-text" style="font-size: 2rem;">{{ sales_total | round(2) }} €</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Περιοχή για γραφήματα ή άλλα widgets -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Γραφήματα Πωλήσεων (Coming Soon!)</h5>
+                    <div style="height:200px;display:flex;align-items:center;justify-content:center;color:#888;">
+                        <em>Τα γραφήματα θα εμφανιστούν εδώ!</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

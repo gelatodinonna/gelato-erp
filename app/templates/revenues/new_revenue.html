@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Νέο Έσοδο</title>
+</head>
+<body>
+    <h1>Καταχώρηση Νέου Εσόδου</h1>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <p>{{ form.amount.label }}<br>{{ form.amount(size=20) }}</p>
+        <p>{{ form.date.label }}<br>{{ form.date() }}</p>
+        <p>{{ form.store_id.label }}<br>{{ form.store_id() }}</p>
+
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    <p><a href="{{ url_for('main.dashboard') }}">Επιστροφή στον Πίνακα Ελέγχου</a></p>
+</body>
+</html>

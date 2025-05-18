@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}Νέο Τιμολόγιο | Gelato ERP{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">🧾 Νέο Τιμολόγιο</h2>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            {{ form.number.label(class="form-label") }}
+            {{ form.number(class="form-control") }}
+        </div>
+        <div class="col-md-6 mb-3">
+            {{ form.date.label(class="form-label") }}
+            {{ form.date(class="form-control") }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            {{ form.client_id.label(class="form-label") }}
+            {{ form.client_id(class="form-select") }}
+        </div>
+        <div class="col-md-6 mb-3">
+            {{ form.store_id.label(class="form-label") }}
+            {{ form.store_id(class="form-select") }}
+        </div>
+    </div>
+
+    <h5 class="mt-4">📦 Γραμμές Παραστατικού</h5>
+    <div id="lines-container">
+        {% for subform in form.lines %}
+        <div class="row line-entry mb-3">
+            <div class="col-md-5">
+                {{ subform.product_name(class="form-control", placeholder="Προϊόν") }}
+            </div>
+            <div class="col-md-3">
+                {{ subform.quantity(class="form-control", placeholder="Ποσότητα") }}
+            </div>
+            <div class="col-md-3">
+                {{ subform.unit_price(class="form-control", placeholder="Τιμή Μονάδας (€)") }}
+            </div>
+            <div class="col-md-1 d-flex align-items-center">
+                <button type="button" class="btn btn-danger btn-sm remove-line">✖</button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <button type="button" id="add-line" class="btn btn-secondary mb-4">➕ Προσθήκη Γραμμής</button>
+
+    <div>
+        <button type="submit" class="btn btn-success">Αποθήκευση</button>
+        <a href="{{ url_for('invoices.index') }}" class="btn btn-secondary">Ακύρωση</a>
+    </div>
+</form>
+
+<script>
+// HTML πρότυπο για νέα γραμμή
+const lineTemplate = `
+<div class="row line-entry mb-3">
+    <div class="col-md-5">
+        <input class="form-control" name="lines-__index__-product_name" placeholder="Προϊόν">
+    </div>
+    <div class="col-md-3">
+        <input class="form-control" name="lines-__index__-quantity" type="number" step="0.01" placeholder="Ποσότητα">
+    </div>
+    <div class="col-md-3">
+        <input class="form-control" name="lines-__index__-unit_price" type="number" step="0.01" placeholder="Τιμή Μονάδας (€)">
+    </div>
+    <div class="col-md-1 d-flex align-items-center">
+        <button type="button" class="btn btn-danger btn-sm remove-line">✖</button>
+    </div>
+</div>
+`;
+
+let lineIndex = {{ form.lines|length }};
+
+document.getElementById('add-line').addEventListener('click', function() {
+    const newLineHtml = lineTemplate.replace(/__index__/g, lineIndex);
+    const container = document.getElementById('lines-container');
+    container.insertAdjacentHTML('beforeend', newLineHtml);
+    lineIndex++;
+});
+
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('remove-line')) {
+        e.target.closest('.line-entry').remove();
+    }
+});
+</script>
+
+{% endblock %}

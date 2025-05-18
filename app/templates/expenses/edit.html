@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Επεξεργασία Εξόδου | Gelato ERP{% endblock %}
+{% block content %}
+<h2 class="mb-4">✏️ Επεξεργασία Εξόδου</h2>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+        {{ form.date.label(class="form-label") }}
+        {{ form.date(class="form-control") }}
+        {% for error in form.date.errors %}
+            <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.amount.label(class="form-label") }}
+        {{ form.amount(class="form-control", step="0.01") }}
+        {% for error in form.amount.errors %}
+            <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.store_id.label(class="form-label") }}
+        {{ form.store_id(class="form-select") }}
+        {% for error in form.store_id.errors %}
+            <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <button type="submit" class="btn btn-success">Αποθήκευση</button>
+    <a href="{{ url_for('expenses.index') }}" class="btn btn-secondary">Ακύρωση</a>
+</form>
+{% endblock %}

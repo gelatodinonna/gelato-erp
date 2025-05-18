@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Κοστολογήσεις | Gelato ERP{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">🧾 Κοστολογήσεις Προϊόντων</h2>
+
+<a href="{{ url_for('costing.add_costing') }}" class="btn btn-success mb-4">➕ Νέα Κοστολόγηση</a>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover bg-white shadow-sm">
+        <thead class="table-light">
+            <tr>
+                <th>Προϊόν</th>
+                <th>Υλικό</th>
+                <th>Ποσότητα Υλικού</th>
+                <th>Μονάδα</th>
+                <th>Απόδοση</th>
+                <th>Μονάδες Προϊόντος</th>
+                <th>Κόστος/Μονάδα (€)</th>
+                <th style="width: 180px;">Ενέργειες</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in costings %}
+            <tr>
+                <td>{{ c.product.name }}</td>
+                <td>{{ c.material.name }}</td>
+                <td>{{ "{:,.2f}".format(c.quantity) }}</td>
+                <td>{{ c.material.unit }}</td>
+                <td>{{ c.unit_yield or 1 }}</td>
+                <td>{{ "{:,.2f}".format(c.unit_yield or 1) }}</td>
+                <td>
+                    {% if c.unit_yield %}
+                        {{ "{:,.2f}".format((c.material.cost or 0) * c.quantity / c.unit_yield) }}
+                    {% else %}
+                        {{ "{:,.2f}".format((c.material.cost or 0) * c.quantity) }}
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('costing.edit_costing', costing_id=c.id) }}" class="btn btn-sm btn-warning">Επεξεργασία</a>
+                    <form method="POST" action="{{ url_for('costing.delete_costing', costing_id=c.id) }}"
+                          style="display:inline;" onsubmit="return confirm('Είσαι σίγουρος;');">
+                        <button type="submit" class="btn btn-sm btn-danger">Διαγραφή</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="8" class="text-center text-muted">Δεν υπάρχουν κοστολογήσεις.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

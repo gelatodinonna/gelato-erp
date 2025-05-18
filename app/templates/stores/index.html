@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Καταστήματα | Gelato ERP{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>🏬 Καταστήματα</h2>
+    <a href="{{ url_for('stores.add_store') }}" class="btn btn-primary">➕ Νέο Κατάστημα</a>
+</div>
+
+<table class="table table-bordered table-hover bg-white shadow-sm">
+    <thead class="table-light">
+        <tr>
+            <th>Όνομα</th>
+            <th>Τοποθεσία</th>
+            <th style="width: 180px;">Ενέργειες</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for store in stores %}
+        <tr>
+            <td>{{ store.name }}</td>
+            <td>{{ store.location }}</td>
+            <td>
+                <a href="{{ url_for('stores.edit_store', store_id=store.id) }}" class="btn btn-sm btn-warning">Επεξεργασία</a>
+                <form action="{{ url_for('stores.delete_store', store_id=store.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Είσαι σίγουρος;');">
+                    <button type="submit" class="btn btn-sm btn-danger">Διαγραφή</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="3" class="text-center text-muted">Δεν υπάρχουν καταστήματα.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

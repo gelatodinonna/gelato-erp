@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Προσωπικό</title>
+</head>
+<body>
+    <h1>Λίστα Προσωπικού</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Όνομα</th>
+                <th>Επώνυμο</th>
+                <th>Ρόλος</th>
+                <th>Κατάστημα</th>
+                <th>Τηλέφωνο</th>
+                <th>Ημερομηνία Έναρξης</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for emp in employees %}
+            <tr>
+                <td>{{ emp.first_name }}</td>
+                <td>{{ emp.last_name }}</td>
+                <td>{{ emp.role }}</td>
+                <td>{{ emp.store.name }}</td>
+                <td>{{ emp.phone }}</td>
+                <td>{{ emp.start_date.strftime('%d/%m/%Y') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><a href="{{ url_for('main.dashboard') }}">Πίσω στον πίνακα ελέγχου</a></p>
+</body>
+</html>

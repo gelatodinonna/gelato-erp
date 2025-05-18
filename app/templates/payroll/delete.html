@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Επιβεβαίωση Διαγραφής</h3>
+  <p>Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή τη μισθοδοσία;</p>
+  <form method="POST">
+    <button type="submit" class="btn btn-danger">Διαγραφή</button>
+    <a href="{{ url_for('payroll.payroll_home') }}" class="btn btn-secondary">Ακύρωση</a>
+  </form>
+</div>
+{% endblock %}

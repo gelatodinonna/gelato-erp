@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Έξοδα</title>
+</head>
+<body>
+    <h1>Καταχωρημένα Έξοδα</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Ημερομηνία</th>
+                <th>Κατάστημα</th>
+                <th>Ποσό</th>
+                <th>Περιγραφή</th>
+                <th>Πηγή Πληρωμής</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exp in expenses %}
+            <tr>
+                <td>{{ exp.date.strftime('%d/%m/%Y') }}</td>
+                <td>{{ exp.store.name }}</td>
+                <td>{{ exp.amount }} €</td>
+                <td>{{ exp.description }}</td>
+                <td>{{ exp.payment_source }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><a href="{{ url_for('main.dashboard') }}">Πίσω στον πίνακα ελέγχου</a></p>
+</body>
+</html>

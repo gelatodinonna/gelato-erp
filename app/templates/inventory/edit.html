@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Επεξεργασία Υλικού{% endblock %}
+{% block content %}
+<h2>Επεξεργασία Υλικού</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">{{ form.name.label }}{{ form.name(class_="form-control") }}</div>
+    <div class="mb-3">{{ form.quantity.label }}{{ form.quantity(class_="form-control") }}</div>
+    <div class="mb-3">{{ form.unit.label }}{{ form.unit(class_="form-control") }}</div>
+    <div class="mb-3">{{ form.cost.label }}{{ form.cost(class_="form-control") }}</div>
+    <div class="mb-3">{{ form.store_id.label }}{{ form.store_id(class_="form-select") }}</div>
+    <button type="submit" class="btn btn-primary">Αποθήκευση</button>
+    <a href="{{ url_for('inventory.list_materials') }}" class="btn btn-secondary">Άκυρο</a>
+</form>
+{% endblock %}

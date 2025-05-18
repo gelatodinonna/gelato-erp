@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Αποθήκη</h2>
+    <a href="{{ url_for('inventory.new_inventory') }}" class="btn btn-success mb-3">+ Προσθήκη Υλικού</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Όνομα</th>
+                <th>Κωδικός</th>
+                <th>Ποσότητα</th>
+                <th>Μονάδα</th>
+                <th>Κατάστημα</th>
+                <th>Ενέργειες</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in materials %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.code }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.unit }}</td>
+                <td>{{ item.store.name }}</td>
+                <td>
+                    <a href="{{ url_for('inventory.edit_inventory', id=item.id) }}" class="btn btn-sm btn-warning">Επεξεργασία</a>
+                    <a href="{{ url_for('inventory.delete_inventory', id=item.id) }}" class="btn btn-sm btn-danger">Διαγραφή</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Κοστολόγηση Προϊόντος | Gelato ERP{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">🧪 Νέα Κοστολόγηση</h2>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+        {{ form.product_name.label(class="form-label") }}
+        {{ form.product_name(class="form-control") }}
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="store_id" class="form-label">Κατάστημα / Αποθήκη</label>
+            <select id="store_id" name="store_id" class="form-select">
+                <option disabled selected>Επιλέξτε</option>
+                {% for store in stores %}
+                    <option value="{{ store.id }}">{{ store.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="material_id" class="form-label">Υλικό</label>
+            <select id="material_id" name="material_id" class="form-select">
+                <option disabled selected>Επιλέξτε κατάστημα πρώτα</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            {{ form.quantity.label(class="form-label") }}
+            {{ form.quantity(class="form-control", step="0.01") }}
+        </div>
+
+        <div class="col-md-6 mb-3">
+            {{ form.unit_yield.label(class="form-label") }}
+            {{ form.unit_yield(class="form-control", step="0.01") }}
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Αποθήκευση</button>
+    <a href="{{ url_for('costing.index') }}" class="btn btn-secondary">Ακύρωση</a>
+</form>
+
+<!-- 🔄 JavaScript για υλικά ανά αποθήκη -->
+<script>
+document.getElementById('store_id').addEventListener('change', function () {
+    const storeId = this.value;
+    const materialSelect = document.getElementById('material_id');
+    materialSelect.innerHTML = '<option selected>Φόρτωση...</option>';
+
+    fetch(`/api/materials/${storeId}`)
+        .then(response => response.json())
+        .then(data => {
+            materialSelect.innerHTML = '';
+            if (data.length === 0) {
+                materialSelect.innerHTML = '<option disabled selected>Δεν υπάρχουν υλικά</option>';
+            } else {
+                data.forEach(mat => {
+                    const option = document.createElement('option');
+                    option.value = mat.id;
+                    option.textContent = `${mat.name} (${mat.unit})`;
+                    materialSelect.appendChild(option);
+                });
+            }
+        });
+});
+</script>
+
+{% endblock %}

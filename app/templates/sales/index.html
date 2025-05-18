@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Πωλήσεις | Gelato ERP{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>🧾 Πωλήσεις</h2>
+</div>
+
+<form method="GET" class="row g-3 mb-4">
+    <div class="col-md-3">
+        <label class="form-label">Κατάστημα</label>
+        <select name="store" class="form-select">
+            <option value="">Όλα</option>
+            {% for store in stores %}
+                <option value="{{ store.id }}" {% if selected_store == store.id %}selected{% endif %}>{{ store.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">Από</label>
+        <input type="date" name="start_date" class="form-control" value="{{ start_date or '' }}">
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">Έως</label>
+        <input type="date" name="end_date" class="form-control" value="{{ end_date or '' }}">
+    </div>
+    <div class="col-md-3 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary w-100">Φίλτρο</button>
+    </div>
+</form>
+
+<table class="table table-bordered table-hover bg-white shadow-sm">
+    <thead class="table-light">
+        <tr>
+            <th>Ημερομηνία</th>
+            <th>Κατηγορία</th>
+            <th>Κατάστημα</th>
+            <th>Ποσό (€)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in revenues %}
+        <tr>
+            <td>{{ r.date.strftime('%d/%m/%Y') }}</td>
+            <td>{{ r.category }}</td>
+            <td>{{ r.store.name }}</td>
+            <td>{{ "{:,.2f}".format(r.amount) }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4" class="text-center text-muted">Δεν βρέθηκαν πωλήσεις.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Μισθοδοσία | Gelato ERP{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>💰 Μισθοδοσία</h2>
+    <a href="{{ url_for('payroll.add_payroll') }}" class="btn btn-success">➕ Νέα Καταχώριση</a>
+</div>
+
+<form method="GET" class="row g-3 mb-4">
+    <div class="col-md-3">
+        <label class="form-label">Κατάστημα</label>
+        <select name="store" class="form-select">
+            <option value="">Όλα</option>
+            {% for store in stores %}
+                <option value="{{ store.id }}" {% if selected_store == store.id %}selected{% endif %}>{{ store.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">Μήνας</label>
+        <select name="month" class="form-select">
+            <option value="">Όλοι</option>
+            {% for m in range(1,13) %}
+                <option value="{{ m }}" {% if selected_month == m %}selected{% endif %}>{{ m }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">Έτος</label>
+        <input type="number" name="year" class="form-control" value="{{ selected_year or '' }}">
+    </div>
+    <div class="col-md-3 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary w-100">Φίλτρο</button>
+    </div>
+</form>
+
+<table class="table table-bordered table-hover bg-white shadow-sm">
+    <thead class="table-light">
+        <tr>
+            <th>Ημερομηνία</th>
+            <th>Εργαζόμενος</th>
+            <th>Κατάστημα</th>
+            <th>Καθαρά (€)</th>
+            <th>Bonus (€)</th>
+            <th>Μέθοδος</th>
+            <th style="width: 160px;">Ενέργειες</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in payrolls %}
+        <tr>
+            <td>{{ p.date.strftime('%d/%m/%Y') }}</td>
+            <td>{{ p.employee.first_name }} {{ p.employee.last_name }}</td>
+            <td>{{ p.store.name }}</td>
+            <td>{{ "{:,.2f}".format(p.net_amount) }}</td>
+            <td>{{ "{:,.2f}".format(p.bonus or 0) }}</td>
+            <td>{{ p.payment_method }}</td>
+            <td>
+                <a href="{{ url_for('payroll.edit_payroll', payroll_id=p.id) }}" class="btn btn-sm btn-warning">Επεξεργασία</a>
+                <form action="{{ url_for('payroll.delete_payroll', payroll_id=p.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Επιβεβαιώνεις διαγραφή;');">
+                    <button type="submit" class="btn btn-sm btn-danger">Διαγραφή</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="7" class="text-center text-muted">Δεν βρέθηκαν εγγραφές.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

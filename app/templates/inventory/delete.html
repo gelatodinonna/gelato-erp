@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Διαγραφή Υλικού</h2>
+    <p>Είστε σίγουρος ότι θέλετε να διαγράψετε το υλικό <strong>{{ material.name }}</strong>;</p>
+
+    <form method="POST">
+        <button type="submit" class="btn btn-danger">Ναι, Διαγραφή</button>
+        <a href="{{ url_for('inventory.inventory_home') }}" class="btn btn-secondary">Άκυρο</a>
+    </form>
+</div>
+{% endblock %}

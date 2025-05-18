@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Μισθοδοσία</title>
+</head>
+<body>
+    <h1>Αρχείο Μισθοδοσίας</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Υπάλληλος</th>
+                <th>Κατάστημα</th>
+                <th>Ημερομηνία</th>
+                <th>Ακαθάριστο Ποσό (€)</th>
+                <th>Καθαρό Ποσό (€)</th>
+                <th>Bonus (€)</th>
+                <th>Μέθοδος Πληρωμής</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in payrolls %}
+            <tr>
+                <td>{{ p.employee.first_name }} {{ p.employee.last_name }}</td>
+                <td>{{ p.store.name }}</td>
+                <td>{{ p.date.strftime('%d/%m/%Y') }}</td>
+                <td>{{ p.gross_amount }}</td>
+                <td>{{ p.net_amount }}</td>
+                <td>{{ p.bonus or 0 }}</td>
+                <td>{{ p.payment_method }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><a href="{{ url_for('main.dashboard') }}">Πίσω στον πίνακα ελέγχου</a></p>
+</body>
+</html>

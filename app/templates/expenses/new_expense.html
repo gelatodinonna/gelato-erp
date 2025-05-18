@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Καταχώρηση Εξόδου</title>
+</head>
+<body>
+    <h1>Νέο Έξοδο</h1>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <p>{{ form.date.label }}<br>{{ form.date() }}</p>
+        <p>{{ form.amount.label }}<br>{{ form.amount() }}</p>
+        <p>{{ form.store_id.label }}<br>{{ form.store_id() }}</p>
+        <p>{{ form.description.label }}<br>{{ form.description() }}</p>
+
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    <p><a href="{{ url_for('main.dashboard') }}">Επιστροφή στον Πίνακα Ελέγχου</a></p>
+</body>
+</html>

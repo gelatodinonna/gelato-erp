@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Λίστα Προσωπικού{% endblock %}
+{% block content %}
+<h2>Λίστα Προσωπικού</h2>
+<a href="{{ url_for('hr.add_personnel') }}" class="btn btn-primary mb-3">Νέο Μέλος</a>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Όνομα</th>
+            <th>Επώνυμο</th>
+            <th>Τηλέφωνο</th>
+            <th>ΑΦΜ</th>
+            <th>ΑΜΚΑ</th>
+            <th>Ενέργειες</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in personnel %}
+        <tr>
+            <td>{{ p.first_name }}</td>
+            <td>{{ p.last_name }}</td>
+            <td>{{ p.telephone }}</td>
+            <td>{{ p.vat }}</td>
+            <td>{{ p.amka }}</td>
+            <td>
+                <a href="{{ url_for('hr.edit_personnel', id=p.id) }}" class="btn btn-sm btn-warning">Επεξεργασία</a>
+                <form action="{{ url_for('hr.delete_personnel', id=p.id) }}" method="POST" style="display:inline;">
+                    <button class="btn btn-sm btn-danger" onclick="return confirm('Να διαγραφεί;');">Διαγραφή</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

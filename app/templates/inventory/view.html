@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Λεπτομέρειες Υλικού</h2>
+
+    <table class="table table-bordered mt-3">
+        <tr>
+            <th>Όνομα</th>
+            <td>{{ material.name }}</td>
+        </tr>
+        <tr>
+            <th>Κωδικός</th>
+            <td>{{ material.code }}</td>
+        </tr>
+        <tr>
+            <th>Μονάδα</th>
+            <td>{{ material.unit }}</td>
+        </tr>
+        <tr>
+            <th>Ποσότητα</th>
+            <td>{{ material.quantity }}</td>
+        </tr>
+        <tr>
+            <th>Κόστος/μονάδα (€)</th>
+            <td>{{ material.cost }}</td>
+        </tr>
+        <tr>
+            <th>Κατάστημα</th>
+            <td>{{ material.store.name }}</td>
+        </tr>
+        <tr>
+            <th>Ημερομηνία Καταχώρησης</th>
+            <td>{{ material.created_at.strftime('%d/%m/%Y') }}</td>
+        </tr>
+    </table>
+
+    <a href="{{ url_for('inventory.edit_material', id=material.id) }}" class="btn btn-primary">Επεξεργασία</a>
+    <a href="{{ url_for('inventory.inventory_home') }}" class="btn btn-secondary">Επιστροφή</a>
+</div>
+{% endblock %}

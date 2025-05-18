@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Προβολή Τιμολογίου | Gelato ERP{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">📄 Προβολή Τιμολογίου</h2>
+
+<div class="mb-4">
+    <p><strong>Ημερομηνία:</strong> {{ invoice.date.strftime('%d/%m/%Y') }}</p>
+    <p><strong>Αριθμός Τιμολογίου:</strong> {{ invoice.number }}</p>
+    <p><strong>Πελάτης:</strong> {{ invoice.client.name }}</p>
+    <p><strong>Κατάστημα:</strong> {{ invoice.store.name }}</p>
+</div>
+
+<h5 class="mb-3">📦 Γραμμές Τιμολογίου</h5>
+<div class="table-responsive">
+    <table class="table table-bordered bg-white shadow-sm">
+        <thead class="table-light">
+            <tr>
+                <th>Προϊόν</th>
+                <th>Ποσότητα</th>
+                <th>Τιμή Μονάδας (€)</th>
+                <th>Σύνολο (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for line in invoice.lines %}
+            <tr>
+                <td>{{ line.product_name }}</td>
+                <td>{{ "{:,.2f}".format(line.quantity) }}</td>
+                <td>{{ "{:,.2f}".format(line.unit_price) }}</td>
+                <td>{{ "{:,.2f}".format(line.line_total) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr class="table-light">
+                <th colspan="3" class="text-end">Σύνολο:</th>
+                <th>
+                    {{
+                        "{:,.2f}".format(
+                            sum(line.line_total for line in invoice.lines)
+                        )
+                    }}
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div class="mt-4 d-flex gap-2">
+    <a href="{{ url_for('invoices.index') }}" class="btn btn-secondary">← Επιστροφή</a>
+    <a href="{{ url_for('invoices.export_invoice_pdf', invoice_id=invoice.id) }}" class="btn btn-dark">🖨️ Εκτύπωση PDF</a>
+    <a href="{{ url_for('invoices.download_invoice_pdf', invoice_id=invoice.id) }}" class="btn btn-outline-primary">⬇️ Λήψη PDF</a>
+</div>
+
+{% endblock %}

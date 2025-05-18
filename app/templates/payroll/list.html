@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Λίστα Μισθοδοσίας</h2>
+    <a href="{{ url_for('payroll.add_payroll') }}" class="btn btn-success mb-3">+ Νέα Καταχώρηση</a>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Υπάλληλος</th>
+                <th>Κατάστημα</th>
+                <th>Ημερομηνία</th>
+                <th>Μικτές</th>
+                <th>Καθαρές</th>
+                <th>Bonus</th>
+                <th>Τρόπος Πληρωμής</th>
+                <th>Ενέργειες</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in payrolls %}
+            <tr>
+                <td>{{ p.personnel.first_name }} {{ p.personnel.last_name }}</td>
+                <td>{{ p.store.name }}</td>
+                <td>{{ p.date.strftime('%d/%m/%Y') }}</td>
+                <td>{{ "%.2f"|format(p.gross_amount) }}</td>
+                <td>{{ "%.2f"|format(p.net_amount) }}</td>
+                <td>{{ "%.2f"|format(p.bonus or 0) }}</td>
+                <td>{{ p.payment_method }}</td>
+                <td>
+                    <a href="{{ url_for('payroll.edit_payroll', id=p.id) }}" class="btn btn-primary btn-sm">Επεξεργασία</a>
+                    <form action="{{ url_for('payroll.delete_payroll', id=p.id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Διαγραφή;');">Διαγραφή</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
