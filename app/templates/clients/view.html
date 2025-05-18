@@ -2,16 +2,27 @@
 {% block title %}Προβολή Πελάτη | Gelato ERP{% endblock %}
 {% block content %}
 
-<h2 class="mb-4">🧾 Στοιχεία Πελάτη</h2>
+<h2 class="mb-4">👤 Προβολή Πελάτη</h2>
 
-<ul class="list-group mb-3">
-    <li class="list-group-item"><strong>Όνομα:</strong> {{ client.name }}</li>
-    <li class="list-group-item"><strong>Διεύθυνση:</strong> {{ client.address }}</li>
-    <li class="list-group-item"><strong>Τηλέφωνο:</strong> {{ client.phone }}</li>
-    <li class="list-group-item"><strong>ΑΦΜ:</strong> {{ client.vat_number }}</li>
-    <li class="list-group-item"><strong>Email:</strong> {{ client.email }}</li>
-</ul>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ client.name }}</h5>
+        <p class="card-text"><strong>ΑΦΜ:</strong> {{ client.vat_number }}</p>
+        <p class="card-text"><strong>Διεύθυνση:</strong> {{ client.address }}</p>
+        <p class="card-text"><strong>Τηλέφωνο:</strong> {{ client.phone }}</p>
+        <p class="card-text"><strong>Email:</strong> {{ client.email }}</p>
+    </div>
+</div>
 
-<a href="{{ url_for('clients.index') }}" class="btn btn-secondary">🔙 Πίσω</a>
+<div class="mt-4">
+    <a href="{{ url_for('clients.edit_client', client_id=client.id) }}" class="btn btn-warning">✏️ Επεξεργασία</a>
+
+    <form action="{{ url_for('clients.delete_client', client_id=client.id) }}" method="POST" style="display:inline;" 
+          onsubmit="return confirm('Είσαι σίγουρος ότι θέλεις να διαγράψεις αυτόν τον πελάτη;');">
+        <button type="submit" class="btn btn-danger">🗑️ Διαγραφή</button>
+    </form>
+
+    <a href="{{ url_for('clients.index') }}" class="btn btn-secondary">🔙 Πίσω</a>
+</div>
 
 {% endblock %}
