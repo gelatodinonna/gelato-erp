@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: gelato-erp
+    env: python
+    plan: free
+    buildCommand: ""
+    startCommand: gunicorn 'app:create_app()'
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        value: super-secret-key
