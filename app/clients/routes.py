@@ -11,23 +11,6 @@ def index():
     clients = Client.query.order_by(Client.name.asc()).all()
     return render_template('clients/index.html', clients=clients)
 
-@clients_bp.route('/new', methods=['GET', 'POST'])
-def new_client():
-    form = ClientForm()
-    if form.validate_on_submit():
-        client = Client(
-            name=form.name.data,
-            afm=form.afm.data,
-            address=form.address.data,
-            phone=form.phone.data,
-            email=form.email.data
-        )
-        db.session.add(client)
-        db.session.commit()
-        flash('Ο πελάτης προστέθηκε!', 'success')
-        return redirect(url_for('clients.index'))
-    return render_template('clients/add.html', form=form)
-
 @clients_bp.route('/add', methods=['GET', 'POST'])
 def add_client():
     form = ClientForm()
@@ -44,6 +27,14 @@ def add_client():
         flash("Ο πελάτης προστέθηκε επιτυχώς!", "success")
         return redirect(url_for('clients.index'))
     return render_template('clients/add.html', form=form)    
+
+@clients_bp.route('/<int:client_id>/delete', methods=['POST'], endpoint='delete_client')
+def delete_client(client_id):
+    client = Client.query.get_or_404(client_id)
+    db.session.delete(client)
+    db.session.commit()
+    flash('Ο πελάτης διαγράφηκε επιτυχώς.', 'success')
+    return redirect(url_for('clients.index'))    
 
 @clients_bp.route('/<int:client_id>')
 def view_client(client_id):
