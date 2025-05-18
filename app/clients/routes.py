@@ -40,7 +40,7 @@ def delete_client(client_id):
 def view_client(client_id):
     client = Client.query.get_or_404(client_id)
     form = DeleteForm()
-    return render_template('clients/view.html', client=client)
+    return render_template('clients/view.html', client=client, form=form)
 
 @clients_bp.route('/<int:client_id>/edit', methods=['GET', 'POST'])
 def edit_client(client_id):

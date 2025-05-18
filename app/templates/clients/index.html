@@ -14,7 +14,7 @@
                 <th>ΑΦΜ</th>
                 <th>Email</th>
                 <th>Τηλέφωνο</th>
-                <th style="width: 120px;">Ενέργειες</th>
+                <th style="width: 150px;">Ενέργειες</th>
             </tr>
         </thead>
         <tbody>
@@ -24,8 +24,13 @@
                 <td>{{ client.vat }}</td>
                 <td>{{ client.email }}</td>
                 <td>{{ client.phone }}</td>
-                <td>
+                <td class="d-flex justify-content-between">
                     <a href="{{ url_for('clients.view_client', client_id=client.id) }}" class="btn btn-sm btn-primary">Προβολή</a>
+
+                    <form action="{{ url_for('clients.delete_client', client_id=client.id) }}" method="POST" style="display:inline;">
+                        {{ csrf_token() }}
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Σίγουρα διαγραφή;')">Διαγραφή</button>
+                    </form>
                 </td>
             </tr>
             {% else %}
