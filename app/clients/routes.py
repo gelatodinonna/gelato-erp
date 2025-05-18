@@ -2,7 +2,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from app.extensions import db
 from app.models import Client
-from app.clients.forms import ClientForm
+from app.clients.forms import ClientForm, DeleteForm
 
 clients_bp = Blueprint('clients', __name__, url_prefix='/clients')
 
@@ -39,6 +39,7 @@ def delete_client(client_id):
 @clients_bp.route('/<int:client_id>')
 def view_client(client_id):
     client = Client.query.get_or_404(client_id)
+    form = DeleteForm()
     return render_template('clients/view.html', client=client)
 
 @clients_bp.route('/<int:client_id>/edit', methods=['GET', 'POST'])
