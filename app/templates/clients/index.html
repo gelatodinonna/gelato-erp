@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Πελάτες Χονδρικής | Gelato ERP{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">📋 Πελάτες Χονδρικής</h2>
+
+<a href="{{ url_for('clients.add_client') }}" class="btn btn-success mb-3">➕ Νέος Πελάτης</a>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>Επωνυμία</th>
+                <th>ΑΦΜ</th>
+                <th>Email</th>
+                <th>Τηλέφωνο</th>
+                <th style="width: 120px;">Ενέργειες</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+            <tr>
+                <td>{{ client.name }}</td>
+                <td>{{ client.vat }}</td>
+                <td>{{ client.email }}</td>
+                <td>{{ client.phone }}</td>
+                <td>
+                    <a href="{{ url_for('clients.view_client', client_id=client.id) }}" class="btn btn-sm btn-primary">Προβολή</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" class="text-center text-muted">Δεν υπάρχουν πελάτες.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
