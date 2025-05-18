@@ -10,3 +10,6 @@ class ClientForm(FlaskForm):
     phone = StringField('Τηλέφωνο', validators=[Optional()])
     email = StringField('Email', validators=[Optional()])
     submit = SubmitField('Αποθήκευση')
+
+class DeleteForm(FlaskForm):
+    submit = SubmitField('Διαγραφή')    
