@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, FloatField, SelectField, SubmitField, DateField
 from wtforms.validators import DataRequired, Optional
-from app.models import Store, Personnel
+from app.models import Store, Employee
 
 class StoreForm(FlaskForm):
     name = StringField('Όνομα Καταστήματος', validators=[DataRequired()])
