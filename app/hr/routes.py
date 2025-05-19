@@ -51,7 +51,7 @@ def edit_personnel(id):
     if form.validate_on_submit():
         employee.first_name = form.first_name.data
         employee.last_name = form.last_name.data
-        employee.father_name = form.middle_name.data
+        employee.father_name = form.father_name.data
         employee.age = form.age.data
         employee.vat = form.vat.data
         employee.amka = form.amka.data

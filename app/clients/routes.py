@@ -53,4 +53,4 @@ def edit_client(client_id):
         flash("Ο πελάτης ενημερώθηκε.", "success")
         return redirect(url_for('clients.index'))
 
-    return render_template('clients/edit.html', form=form)    
+    return render_template('clients/edit.html', form=form, client=client)    

@@ -10,7 +10,6 @@ class EmployeeForm(FlaskForm):
     age = IntegerField('Ηλικία', validators=[Optional()])
     vat = StringField('ΑΦΜ', validators=[Optional()])
     amka = StringField('ΑΜΚΑ', validators=[Optional()])
-    phone = StringField('Τηλέφωνο', validators=[Optional()])
     telephone = StringField('Τηλέφωνο', validators=[Optional()])
     address = StringField('Διεύθυνση', validators=[Optional()])
     iban = StringField('IBAN', validators=[Optional()])

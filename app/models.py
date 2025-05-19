@@ -72,7 +72,7 @@ class Employee(db.Model):
     age = db.Column(db.Integer, nullable=True)
     vat = db.Column(db.String(15), nullable=True)
     amka = db.Column(db.String(15), nullable=True)
-    phone = db.Column(db.String(20), nullable=True)
+    telephone = db.Column(db.String(20), nullable=True)
     address = db.Column(db.String(200), nullable=True)
     iban = db.Column(db.String(34), nullable=True)
     ama = db.Column(db.String(20), nullable=True)
