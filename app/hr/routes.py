@@ -1,7 +1,7 @@
 # app/hr/routes.py
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from app.models import Employee, Store
-from app.hr.forms import EmployeeForm, Deleteform
+from app.hr.forms import EmployeeForm, DeleteForm
 from app.extensions import db
 
 hr_bp = Blueprint('hr', __name__, url_prefix='/hr')
