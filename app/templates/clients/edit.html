@@ -9,31 +9,40 @@
 
     <div class="mb-3">
         {{ form.name.label(class="form-label") }}
-        {{ form.name(class="form-control") }}
+        {{ form.name(class="form-control", placeholder="Επωνυμία") }}
     </div>
 
     <div class="mb-3">
         {{ form.vat_number.label(class="form-label") }}
-        {{ form.vat_number(class="form-control") }}
+        {{ form.vat_number(class="form-control", placeholder="ΑΦΜ") }}
     </div>
 
     <div class="mb-3">
         {{ form.address.label(class="form-label") }}
-        {{ form.address(class="form-control") }}
+        {{ form.address(class="form-control", placeholder="Διεύθυνση") }}
     </div>
 
     <div class="mb-3">
         {{ form.phone.label(class="form-label") }}
-        {{ form.phone(class="form-control") }}
+        {{ form.phone(class="form-control", placeholder="Τηλέφωνο") }}
     </div>
 
     <div class="mb-3">
         {{ form.email.label(class="form-label") }}
-        {{ form.email(class="form-control") }}
+        {{ form.email(class="form-control", placeholder="Email") }}
     </div>
 
-    <button type="submit" class="btn btn-primary">💾 Αποθήκευση</button>
-    <a href="{{ url_for('clients.index') }}" class="btn btn-secondary">Ακύρωση</a>
+    <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">💾 Αποθήκευση</button>
+
+        <form method="POST" action="{{ url_for('clients.delete_client', client_id=client.id) }}"
+              onsubmit="return confirm('Είσαι σίγουρος ότι θέλεις να διαγράψεις αυτόν τον πελάτη;');">
+            {{ form.hidden_tag() }}
+            <button type="submit" class="btn btn-danger">🗑️ Διαγραφή</button>
+        </form>
+    </div>
 </form>
+
+<a href="{{ url_for('clients.index') }}" class="btn btn-secondary mt-3">🔙 Πίσω</a>
 
 {% endblock %}

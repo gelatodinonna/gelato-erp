@@ -24,7 +24,7 @@ def invoice_list():
         invoice.total_amount = sum(line.quantity * line.unit_price for line in invoice.lines)
 
     return render_template('invoices/index.html', invoices=invoices)
-    
+
 # Δημιουργία νέου τιμολογίου με αυτόματη αρίθμηση
 @invoices_bp.route('/add', methods=['GET', 'POST'])
 def add_invoice():
@@ -59,7 +59,7 @@ def add_invoice():
 
         db.session.commit()
         flash("Το παραστατικό καταχωρήθηκε!", "success")
-        return redirect(url_for('invoices.index'))
+        return redirect(url_for('invoices.invoice_list'))  # Διορθώθηκε εδώ ✅
 
     return render_template('invoices/add.html', form=form)
 
