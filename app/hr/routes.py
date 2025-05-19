@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
-from app.models import Employee, Store  # Προσοχή: Χρησιμοποιούμε το Employee ως κεντρικό μοντέλο
-from app.hr.forms import EmployeeForm  # Το σωστό όνομα της φόρμας
+from app.models import Employee, Store
+from app.hr.forms import EmployeeForm
 from app.extensions import db
 
 hr_bp = Blueprint('hr', __name__, url_prefix='/hr')
@@ -27,7 +27,7 @@ def add_personnel():
             age=form.age.data,
             vat=form.vat.data,
             amka=form.amka.data,
-            phone=form.phone.data,
+            phone=form.telephone.data,  # Χρήση του σωστού πεδίου
             address=form.address.data,
             iban=form.iban.data,
             ama=form.ama.data,
@@ -55,7 +55,7 @@ def edit_personnel(id):
         employee.age = form.age.data
         employee.vat = form.vat.data
         employee.amka = form.amka.data
-        employee.phone = form.phone.data
+        employee.phone = form.telephone.data  # Επίσης εδώ
         employee.address = form.address.data
         employee.iban = form.iban.data
         employee.ama = form.ama.data
