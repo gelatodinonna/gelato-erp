@@ -1,7 +1,7 @@
 # app/hr/routes.py
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from app.models import Employee, Store
-from app.hr.forms import EmployeeForm
+from app.hr.forms import EmployeeForm, Deleteform
 from app.extensions import db
 
 hr_bp = Blueprint('hr', __name__, url_prefix='/hr')
@@ -10,7 +10,8 @@ hr_bp = Blueprint('hr', __name__, url_prefix='/hr')
 @hr_bp.route('/')
 def list_personnel():
     employees = Employee.query.order_by(Employee.last_name).all()
-    return render_template('hr/list.html', personnel=employees)
+    delete_form = DeleteForm()
+    return render_template('hr/list.html', personnel=employees, delete_form=delete_form)
 
 # Δημιουργία νέου εργαζομένου
 @hr_bp.route('/new', methods=['GET', 'POST'])

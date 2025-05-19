@@ -32,6 +32,7 @@ def index():
         selected_store=selected_store,
         start_date=start_date,
         end_date=end_date
+        delete_form=DeleteForm()
     )
 
 @expenses_bp.route('/add', methods=['GET', 'POST'])

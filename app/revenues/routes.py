@@ -4,6 +4,7 @@ from app.extensions import db
 from app.models import Revenue, Store
 from app.revenues.forms import RevenueForm
 from sqlalchemy import and_
+from app.forms import DeleteForm
 
 revenues_bp = Blueprint('revenues', __name__, url_prefix='/revenues')
 
@@ -32,6 +33,7 @@ def index():
         selected_store=selected_store,
         start_date=start_date,
         end_date=end_date
+        delete_form=DeleteForm()
     )
 
 @revenues_bp.route('/add', methods=['GET', 'POST'])
@@ -66,8 +68,12 @@ def edit_revenue(revenue_id):
 
 @revenues_bp.route('/delete/<int:revenue_id>', methods=['POST'])
 def delete_revenue(revenue_id):
-    revenue = Revenue.query.get_or_404(revenue_id)
-    db.session.delete(revenue)
-    db.session.commit()
-    flash("Το έσοδο διαγράφηκε.", "info")
-    return redirect(url_for('revenues.index'))
+    form = DeleteForm()
+    if form.validate_on_submit():
+        revenue = Revenue.query.get_or_404(revenue_id)
+        db.session.delete(revenue)
+        db.session.commit()
+        flash("Το έσοδο διαγράφηκε.", "success")
+    else:
+        flash("Αποτυχία διαγραφής: CSRF token λείπει ή μη έγκυρο.", "danger")
+    return redirect(url_for('revenues.view_revenues'))

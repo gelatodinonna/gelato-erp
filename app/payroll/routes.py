@@ -4,6 +4,7 @@ from app.extensions import db
 from app.models import Payroll, Store, Employee
 from app.payroll.forms import PayrollForm
 from sqlalchemy import extract
+from app.forms import DeleteForm
 
 payroll_bp = Blueprint('payroll', __name__, url_prefix='/payroll')
 
@@ -26,6 +27,8 @@ def index():
 
     payrolls = query.order_by(Payroll.date.desc()).all()
 
+    delete_form = DeleteForm()
+
     return render_template(
         'payroll/index.html',
         payrolls=payrolls,
@@ -33,6 +36,7 @@ def index():
         selected_store=selected_store,
         selected_month=selected_month,
         selected_year=selected_year
+        delete_form=delete_form
     )
 
 @payroll_bp.route('/add', methods=['GET', 'POST'])

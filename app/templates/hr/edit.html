@@ -1,44 +1,76 @@
 {% extends "base.html" %}
-{% block title %}Επεξεργασία Προσωπικού{% endblock %}
+{% block title %}Επεξεργασία Εργαζομένου{% endblock %}
 {% block content %}
-<h2>Επεξεργασία Προσωπικού</h2>
-<form method="post">
+<h2 class="mb-4">✏️ Επεξεργασία Εργαζομένου</h2>
+
+<form method="POST">
     {{ form.hidden_tag() }}
+
     <div class="mb-3">
-        {{ form.first_name.label }} {{ form.first_name(class="form-control") }}
+        {{ form.first_name.label(class="form-label") }}
+        {{ form.first_name(class="form-control", placeholder="Όνομα") }}
     </div>
+
     <div class="mb-3">
-        {{ form.last_name.label }} {{ form.last_name(class="form-control") }}
+        {{ form.last_name.label(class="form-label") }}
+        {{ form.last_name(class="form-control", placeholder="Επώνυμο") }}
     </div>
+
     <div class="mb-3">
-        {{ form.father_name.label }} {{ form.father_name(class="form-control") }}
+        {{ form.father_name.label(class="form-label") }}
+        {{ form.father_name(class="form-control", placeholder="Πατρώνυμο") }}
     </div>
+
     <div class="mb-3">
-        {{ form.age.label }} {{ form.age(class="form-control") }}
+        {{ form.age.label(class="form-label") }}
+        {{ form.age(class="form-control", placeholder="Ηλικία") }}
     </div>
+
     <div class="mb-3">
-        {{ form.vat.label }} {{ form.vat(class="form-control") }}
+        {{ form.vat.label(class="form-label") }}
+        {{ form.vat(class="form-control", placeholder="ΑΦΜ") }}
     </div>
+
     <div class="mb-3">
-        {{ form.amka.label }} {{ form.amka(class="form-control") }}
+        {{ form.amka.label(class="form-label") }}
+        {{ form.amka(class="form-control", placeholder="ΑΜΚΑ") }}
     </div>
+
     <div class="mb-3">
-        {{ form.telephone.label }} {{ form.telephone(class="form-control") }}
+        {{ form.telephone.label(class="form-label") }}
+        {{ form.telephone(class="form-control", placeholder="Τηλέφωνο") }}
     </div>
+
     <div class="mb-3">
-        {{ form.address.label }} {{ form.address(class="form-control") }}
+        {{ form.address.label(class="form-label") }}
+        {{ form.address(class="form-control", placeholder="Διεύθυνση") }}
     </div>
+
     <div class="mb-3">
-        {{ form.iban.label }} {{ form.iban(class="form-control") }}
+        {{ form.iban.label(class="form-label") }}
+        {{ form.iban(class="form-control", placeholder="IBAN") }}
     </div>
+
+    <div class="mb-3">
+        {{ form.ama.label(class="form-label") }}
+        {{ form.ama(class="form-control", placeholder="ΑΜΑ") }}
+    </div>
+
     <div class="mb-3">
         {{ form.store_id.label(class="form-label") }}
         {{ form.store_id(class="form-select") }}
     </div>
-    <div class="mb-3">
-        {{ form.ama.label }} {{ form.ama(class="form-control") }}
+
+    <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-success">💾 Αποθήκευση</button>
+
+        <form method="POST" action="{{ url_for('hr.delete_personnel', employee_id=person.id) }}"
+              onsubmit="return confirm('Είσαι σίγουρος ότι θέλεις να διαγράψεις τον εργαζόμενο;');">
+            {{ delete_form.hidden_tag() }}
+            <button type="submit" class="btn btn-danger">🗑️ Διαγραφή</button>
+        </form>
     </div>
-    <button type="submit" class="btn btn-primary">Αποθήκευση</button>
-    <a href="{{ url_for('hr.list_personnel') }}" class="btn btn-secondary">Ακύρωση</a>
 </form>
+
+<a href="{{ url_for('hr.list_personnel') }}" class="btn btn-secondary mt-3">🔙 Πίσω</a>
 {% endblock %}

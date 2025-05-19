@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Λίστα Προσωπικού{% endblock %}
 {% block content %}
-<h2>Λίστα Προσωπικού</h2>
-<a href="{{ url_for('hr.add_personnel') }}" class="btn btn-primary mb-3">Νέο Μέλος</a>
+<h2>👥 Λίστα Προσωπικού</h2>
+<a href="{{ url_for('hr.add_personnel') }}" class="btn btn-primary mb-3">➕ Νέο Μέλος</a>
+
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -22,10 +23,13 @@
             <td>{{ p.telephone }}</td>
             <td>{{ p.vat }}</td>
             <td>{{ p.amka }}</td>
-            <td>
-                <a href="{{ url_for('hr.edit_personnel', id=p.id) }}" class="btn btn-sm btn-warning">Επεξεργασία</a>
-                <form action="{{ url_for('hr.delete_personnel', employee_id=p.id) }}" method="POST" style="display:inline;">
-                    <button class="btn btn-sm btn-danger" onclick="return confirm('Να διαγραφεί;');">Διαγραφή</button>
+            <td class="d-flex gap-2">
+                <a href="{{ url_for('hr.edit_personnel', id=p.id) }}" class="btn btn-sm btn-warning">✏️ Επεξεργασία</a>
+
+                <form action="{{ url_for('hr.delete_personnel', employee_id=p.id) }}" method="POST" style="display:inline;"
+                      onsubmit="return confirm('Είσαι σίγουρος ότι θέλεις να διαγράψεις τον εργαζόμενο;');">
+                    {{ delete_form.hidden_tag() }}
+                    <button type="submit" class="btn btn-sm btn-danger">🗑️ Διαγραφή</button>
                 </form>
             </td>
         </tr>

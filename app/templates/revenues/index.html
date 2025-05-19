@@ -50,6 +50,7 @@
             <td>
                 <a href="{{ url_for('revenues.edit_revenue', revenue_id=revenue.id) }}" class="btn btn-sm btn-warning">Επεξεργασία</a>
                 <form action="{{ url_for('revenues.delete_revenue', revenue_id=revenue.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Επιβεβαιώνεις διαγραφή;');">
+                    {{ delete_form.hidden_tag() }}
                     <button type="submit" class="btn btn-sm btn-danger">Διαγραφή</button>
                 </form>
             </td>

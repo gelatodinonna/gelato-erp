@@ -20,3 +20,6 @@ class EmployeeForm(FlaskForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.store_id.choices = [(s.id, s.name) for s in Store.query.order_by(Store.name).all()]
+
+class DeleteForm(FlaskForm):
+    pass  # Μόνο για CSRF προστασία        

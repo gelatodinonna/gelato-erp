@@ -50,3 +50,6 @@ class PayrollForm(FlaskForm):
         super(PayrollForm, self).__init__(*args, **kwargs)
         self.store_id.choices = [(s.id, s.name) for s in Store.query.all()]
         self.personnel_id.choices = [(p.id, f"{p.first_name} {p.last_name}") for p in Personnel.query.all()]    
+
+class DeleteForm(FlaskForm):
+    pass
