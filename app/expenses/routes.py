@@ -31,7 +31,7 @@ def index():
         stores=stores,
         selected_store=selected_store,
         start_date=start_date,
-        end_date=end_date
+        end_date=end_date,
         delete_form=DeleteForm()
     )
 
