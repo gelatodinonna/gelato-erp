@@ -1,3 +1,4 @@
+# app/hr/routes.py
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from app.models import Employee, Store
 from app.hr.forms import EmployeeForm
@@ -5,13 +6,11 @@ from app.extensions import db
 
 hr_bp = Blueprint('hr', __name__, url_prefix='/hr')
 
-
 # Λίστα εργαζομένων
 @hr_bp.route('/')
 def list_personnel():
     employees = Employee.query.order_by(Employee.last_name).all()
     return render_template('hr/list.html', personnel=employees)
-
 
 # Δημιουργία νέου εργαζομένου
 @hr_bp.route('/new', methods=['GET', 'POST'])
@@ -27,7 +26,7 @@ def add_personnel():
             age=form.age.data,
             vat=form.vat.data,
             amka=form.amka.data,
-            phone=form.telephone.data,  # Χρήση του σωστού πεδίου
+            telephone=form.telephone.data,
             address=form.address.data,
             iban=form.iban.data,
             ama=form.ama.data,
@@ -39,7 +38,6 @@ def add_personnel():
         return redirect(url_for('hr.list_personnel'))
 
     return render_template('hr/new.html', form=form)
-
 
 # Επεξεργασία εργαζομένου
 @hr_bp.route('/edit/<int:id>', methods=['GET', 'POST'])
@@ -55,7 +53,7 @@ def edit_personnel(id):
         employee.age = form.age.data
         employee.vat = form.vat.data
         employee.amka = form.amka.data
-        employee.phone = form.telephone.data  # Επίσης εδώ
+        employee.telephone = form.telephone.data
         employee.address = form.address.data
         employee.iban = form.iban.data
         employee.ama = form.ama.data
@@ -66,7 +64,6 @@ def edit_personnel(id):
         return redirect(url_for('hr.list_personnel'))
 
     return render_template('hr/edit.html', form=form, person=employee)
-
 
 # Διαγραφή εργαζομένου
 @hr_bp.route('/delete/<int:employee_id>', methods=['POST'])
