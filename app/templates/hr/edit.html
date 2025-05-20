@@ -63,14 +63,7 @@
 
     <div class="d-flex justify-content-between">
         <button type="submit" class="btn btn-success">💾 Αποθήκευση</button>
-
-        <form method="POST" action="{{ url_for('hr.delete_personnel', employee_id=person.id) }}"
-              onsubmit="return confirm('Είσαι σίγουρος ότι θέλεις να διαγράψεις τον εργαζόμενο;');">
-            {{ delete_form.hidden_tag() }}
-            <button type="submit" class="btn btn-danger">🗑️ Διαγραφή</button>
-        </form>
+        <a href="{{ url_for('hr.list_personnel') }}" class="btn btn-secondary">🔙 Πίσω</a>
     </div>
 </form>
-
-<a href="{{ url_for('hr.list_personnel') }}" class="btn btn-secondary mt-3">🔙 Πίσω</a>
 {% endblock %}
