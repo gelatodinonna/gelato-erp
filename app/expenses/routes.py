@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request
 from app.extensions import db
 from app.models import Expense, Store
 from app.expenses.forms import ExpenseForm
+from app.forms import DeleteForm
 from sqlalchemy import and_
 
 expenses_bp = Blueprint('expenses', __name__, url_prefix='/expenses')
