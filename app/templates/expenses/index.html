@@ -37,6 +37,7 @@
             <th>Κατάστημα</th>
             <th>Ποσό (€)</th>
             <th>Α.Φ.Μ. Προμηθευτή</th>
+            <th>Περιγραφή</th>
             <th style="width: 160px;">Ενέργειες</th>
         </tr>
     </thead>
@@ -47,6 +48,7 @@
             <td>{{ expense.store.name }}</td>
             <td>{{ "{:,.2f}".format(expense.amount) }}</td>
             <td>{{ expense.supplier_vat or '—' }}</td>
+            <td>{{ expense.description or '—' }}</td>
             <td>
                 <a href="{{ url_for('expenses.edit_expense', expense_id=expense.id) }}" class="btn btn-sm btn-warning">Επεξεργασία</a>
                 <form action="{{ url_for('expenses.delete_expense', expense_id=expense.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Επιβεβαιώνεις διαγραφή;');">
@@ -57,7 +59,7 @@
         </tr>
         {% else %}
         <tr>
-            <td colspan="5" class="text-center text-muted">Δεν βρέθηκαν έξοδα.</td>
+            <td colspan="6" class="text-center text-muted">Δεν βρέθηκαν έξοδα.</td>
         </tr>
         {% endfor %}
     </tbody>
