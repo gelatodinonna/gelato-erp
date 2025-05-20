@@ -43,6 +43,7 @@ def add_expense():
         expense = Expense(
             date=form.date.data,
             amount=form.amount.data,
+            description=form.description.data,
             store_id=form.store_id.data
         )
         db.session.add(expense)
@@ -58,6 +59,7 @@ def edit_expense(expense_id):
     if form.validate_on_submit():
         expense.date = form.date.data
         expense.amount = form.amount.data
+        expense.description = form.description.data
         expense.store_id = form.store_id.data
         db.session.commit()
         flash("Το έξοδο ενημερώθηκε!", "success")

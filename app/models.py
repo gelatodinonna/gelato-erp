@@ -31,6 +31,7 @@ class Expense(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date, nullable=False, default=datetime.utcnow)
     amount = db.Column(db.Float, nullable=False)
+    description = db.Column(db.String(255), nullable=True)
     store_id = db.Column(db.Integer, db.ForeignKey('store.id'), nullable=False)
     store = db.relationship('Store', back_populates='expenses')
 
