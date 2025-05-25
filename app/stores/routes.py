@@ -17,7 +17,10 @@ def add_store():
     if form.validate_on_submit():
         new_store = Store(
             name=form.name.data,
-            location=form.location.data
+            location=form.location.data,
+            vat_number=form.vat_number.data,
+            phone=form.phone.data,
+            address=form.address.data
         )
         db.session.add(new_store)
         db.session.commit()
@@ -32,6 +35,9 @@ def edit_store(store_id):
     if form.validate_on_submit():
         store.name = form.name.data
         store.location = form.location.data
+        store.vat_number = form.vat_number.data
+        store.phone = form.phone.data
+        store.address = form.address.data  
         db.session.commit()
         flash('Το κατάστημα ενημερώθηκε επιτυχώς!', 'success')
         return redirect(url_for('stores.index'))

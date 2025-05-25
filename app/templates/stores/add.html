@@ -22,6 +22,30 @@
         {% endfor %}
     </div>
 
+    <div class="mb-3">
+        {{ form.vat_number.label(class="form-label") }}
+        {{ form.vat_number(class="form-control", placeholder="π.χ. 123456789") }}
+        {% for error in form.vat_number.errors %}
+            <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.phone.label(class="form-label") }}
+        {{ form.phone(class="form-control", placeholder="π.χ. 2101234567") }}
+        {% for error in form.phone.errors %}
+            <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.address.label(class="form-label") }}
+        {{ form.address(class="form-control", placeholder="π.χ. Σταδίου 12, Αθήνα") }}
+        {% for error in form.address.errors %}
+            <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+    </div>
+
     <button type="submit" class="btn btn-success">Αποθήκευση</button>
     <a href="{{ url_for('stores.index') }}" class="btn btn-secondary">Ακύρωση</a>
 </form>
