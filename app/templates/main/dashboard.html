@@ -1,104 +1,112 @@
 {% extends "base.html" %}
 {% block title %}Dashboard | Gelato ERP{% endblock %}
+
 {% block content %}
-
-<div class="text-center mb-5">
-    <h1 class="display-5 fw-bold text-primary">Gelato ERP</h1>
-    <p class="lead">Καλώς ήρθες στο σύστημα διαχείρισης</p>
-</div>
-
-<!-- Πάνελ μετρήσεων -->
-<div class="row g-4 justify-content-center mb-5">
-    <div class="col-md-4">
-        <div class="card shadow-sm border-primary">
-            <div class="card-body text-center">
-                <h5 class="card-title">Καταστήματα</h5>
-                <p class="display-6 text-primary fw-bold">{{ stores_count }}</p>
+<div class="py-4">
+    <h2 class="mb-4"><span style="font-size:2.2rem;">👋</span> Καλώς ήρθες στο Gelato ERP!</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card text-bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Καταστήματα</h5>
+                    <p class="card-text fs-3">{{ stores_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Προσωπικό</h5>
+                    <p class="card-text fs-3">{{ personnel_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-bg-warning mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Συνολικές Πωλήσεις</h5>
+                    <p class="card-text fs-3">{{ sales_total | round(2) }} €</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-4">
-        <div class="card shadow-sm border-success">
-            <div class="card-body text-center">
-                <h5 class="card-title">Εργαζόμενοι</h5>
-                <p class="display-6 text-success fw-bold">{{ employee_count }}</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="card shadow-sm border-warning">
-            <div class="card-body text-center">
-                <h5 class="card-title">Σύνολο Πωλήσεων</h5>
-                <p class="display-6 text-warning fw-bold">€{{ "{:,.2f}".format(sales_total) }}</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Πίνακας Εσόδων -->
-<div class="row mb-4">
-    <div class="col">
-        <h4 class="text-primary">Τελευταία 5 Έσοδα</h4>
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover bg-white shadow-sm">
-                <thead class="table-light">
-                    <tr>
-                        <th>Ημερομηνία</th>
-                        <th>Κατηγορία</th>
-                        <th>Κατάστημα</th>
-                        <th>Ποσό (€)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for revenue in recent_revenues %}
-                    <tr>
-                        <td>{{ revenue.date.strftime('%d/%m/%Y') }}</td>
-                        <td>{{ revenue.category }}</td>
-                        <td>{{ revenue.store.name }}</td>
-                        <td>{{ "{:,.2f}".format(revenue.amount) }}</td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="4" class="text-center text-muted">Δεν υπάρχουν διαθέσιμα έσοδα</td>
-                    </tr>
+    <h4 class="mt-5">📊 Ισοζύγιο Εσόδων - Εξόδων ανά Κατάστημα (€/μήνα)</h4>
+    <div class="table-responsive mt-3 mb-5">
+        <table class="table table-bordered table-striped align-middle text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Κατάστημα</th>
+                    {% for month in range(1, 13) %}
+                        <th>{{ month }}/{{ current_year }}</th>
                     {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-<!-- Πίνακας Εξόδων -->
-<div class="row mb-4">
-    <div class="col">
-        <h4 class="text-danger">Τελευταία 5 Έξοδα</h4>
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover bg-white shadow-sm">
-                <thead class="table-light">
-                    <tr>
-                        <th>Ημερομηνία</th>
-                        <th>Κατάστημα</th>
-                        <th>Ποσό (€)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for expense in recent_expenses %}
-                    <tr>
-                        <td>{{ expense.date.strftime('%d/%m/%Y') }}</td>
-                        <td>{{ expense.store.name }}</td>
-                        <td>{{ "{:,.2f}".format(expense.amount) }}</td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="3" class="text-center text-muted">Δεν υπάρχουν διαθέσιμα έξοδα</td>
-                    </tr>
+                </tr>
+            </thead>
+            <tbody>
+                {% for store_name, monthly_data in balances_by_store.items() %}
+                <tr>
+                    <td><strong>{{ store_name }}</strong></td>
+                    {% for month in range(1, 13) %}
+                        <td>{{ monthly_data[month] | round(2) }} €</td>
                     {% endfor %}
-                </tbody>
-            </table>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card shadow mb-5">
+        <div class="card-body">
+            <h5 class="card-title">📈 Γραφική Παράσταση Καθαρών Εσόδων</h5>
+            <canvas id="balanceChart" height="100"></canvas>
         </div>
     </div>
+
+    <!-- Debug JSON data if needed -->
+    {# <pre>{{ balances_by_store | tojson(indent=2) }}</pre> #}
 </div>
 
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('balanceChart').getContext('2d');
+    const chartData = {
+        labels: [...Array(12).keys()].map(i => `${i+1}/{{ current_year }}`),
+        datasets: [
+            {% for store_name, monthly_data in balances_by_store.items() %}
+            {
+                label: "{{ store_name }}",
+                data: [
+                    {% for month in range(1, 13) %}
+                        {{ monthly_data[month] }},
+                    {% endfor %}
+                ],
+                borderWidth: 2
+            },
+            {% endfor %}
+        ]
+    };
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: chartData,
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Καθαρό Ισοζύγιο ανά Μήνα και Κατάστημα'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: value => value + ' €'
+                    }
+                }
+            }
+        }
+    });
+</script>
 {% endblock %}

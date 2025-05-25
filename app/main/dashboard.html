@@ -5,12 +5,11 @@
 <div class="py-4">
     <h2 class="mb-4"><span style="font-size:2.2rem;">👋</span> Καλώς ήρθες στο Gelato ERP!</h2>
     <div class="row g-4">
-        <!-- Πίνακας στατιστικών -->
         <div class="col-md-4">
             <div class="card text-bg-primary mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Καταστήματα</h5>
-                    <p class="card-text" style="font-size: 2rem;">{{ stores_count }}</p>
+                    <p class="card-text fs-3">{{ stores_count }}</p>
                 </div>
             </div>
         </div>
@@ -18,7 +17,7 @@
             <div class="card text-bg-success mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Προσωπικό</h5>
-                    <p class="card-text" style="font-size: 2rem;">{{ personnel_count }}</p>
+                    <p class="card-text fs-3">{{ personnel_count }}</p>
                 </div>
             </div>
         </div>
@@ -26,23 +25,88 @@
             <div class="card text-bg-warning mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Συνολικές Πωλήσεις</h5>
-                    <p class="card-text" style="font-size: 2rem;">{{ sales_total | round(2) }} €</p>
+                    <p class="card-text fs-3">{{ sales_total | round(2) }} €</p>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Περιοχή για γραφήματα ή άλλα widgets -->
-    <div class="row mt-4">
-        <div class="col-md-12">
-            <div class="card shadow">
-                <div class="card-body">
-                    <h5 class="card-title">Γραφήματα Πωλήσεων (Coming Soon!)</h5>
-                    <div style="height:200px;display:flex;align-items:center;justify-content:center;color:#888;">
-                        <em>Τα γραφήματα θα εμφανιστούν εδώ!</em>
-                    </div>
-                </div>
-            </div>
+
+    <h4 class="mt-5">📊 Ισοζύγιο Εσόδων - Εξόδων ανά Κατάστημα (€/μήνα)</h4>
+    <div class="table-responsive mt-3 mb-5">
+        <table class="table table-bordered table-striped align-middle text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Κατάστημα</th>
+                    {% for month in range(1, 13) %}
+                        <th>{{ month }}/{{ current_year }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for store_name, monthly_data in balances_by_store.items() %}
+                <tr>
+                    <td><strong>{{ store_name }}</strong></td>
+                    {% for month in range(1, 13) %}
+                        <td>{{ monthly_data[month] | round(2) }} €</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card shadow mb-5">
+        <div class="card-body">
+            <h5 class="card-title">📈 Γραφική Παράσταση Καθαρών Εσόδων</h5>
+            <canvas id="balanceChart" height="100"></canvas>
         </div>
     </div>
+
+    <!-- Debug JSON data if needed -->
+    {# <pre>{{ balances_by_store | tojson(indent=2) }}</pre> #}
 </div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('balanceChart').getContext('2d');
+    const chartData = {
+        labels: [...Array(12).keys()].map(i => `${i+1}/{{ current_year }}`),
+        datasets: [
+            {% for store_name, monthly_data in balances_by_store.items() %}
+            {
+                label: "{{ store_name }}",
+                data: [
+                    {% for month in range(1, 13) %}
+                        {{ monthly_data[month] }},
+                    {% endfor %}
+                ],
+                borderWidth: 2
+            },
+            {% endfor %}
+        ]
+    };
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: chartData,
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Καθαρό Ισοζύγιο ανά Μήνα και Κατάστημα'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: value => value + ' €'
+                    }
+                }
+            }
+        }
+    });
+</script>
 {% endblock %}

@@ -1,0 +1,13 @@
+# Python/Flask
+venv/
+__pycache__/
+*.pyc
+instance/
+*.db
+
+# Secrets
+client_secret.json
+
+# VSCode/macOS
+.vscode/
+.DS_Store
