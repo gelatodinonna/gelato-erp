@@ -1,7 +1,13 @@
-venv/
-*.db
+# Secrets
 client_secret.json
 token.json
+
+# Python
 __pycache__/
-.DS_Store
 *.pyc
+
+# DB
+*.db
+
+# Virtual environment
+venv/
